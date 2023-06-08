@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('phone_number');
             $table->string('email');
-            $table->string('image');
+            $table->string('image_url');
             $table->date('birth_date');
             $table->date('issue_date');
             $table->date('expiration_date');
