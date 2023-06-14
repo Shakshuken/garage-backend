@@ -141,30 +141,33 @@ Route::delete('/cars/{id}', [CarController::class, 'destroy']);
 
 Route::delete('/drivers/{id}', [DriverController::class, 'destroy']);
 
+// Маршрут для відображення форми входу
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+// Маршрут для обробки входу користувача
+Route::post('/login', function () {
+    // Логіка обробки входу користувача
+})->name('login');
+
+// Маршрут для відображення форми реєстрації
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');
+
+// Маршрут для обробки реєстрації користувача
+Route::post('/register', function () {
+    // Логіка обробки реєстрації користувача
+})->name('register');
+
+// Маршрут для виходу користувача
+Route::post('/logout', function () {
+    // Логіка виходу користувача
+})->name('logout');
+
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::group(['middleware' => 'web'], function () {
-
-    Route::post('/login', function (Request $request) {
-        $credentials = $request->only('email', 'password');
-
-        if (auth()->attempt($credentials)) {
-            $user = $request->user();
-            $token = $user->createToken('authToken')->plainTextToken;
-            return response()->json(['access_token' => $token]);
-        }
-
-        return response()->json(['message' => 'Invalid credentials'], 401);
-    });
-});
-
-
-Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
-    $request->user()->currentAccessToken()->delete();
-    return response()->json(['message' => 'Logged out']);
-});
-
-
-
