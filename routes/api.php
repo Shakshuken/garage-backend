@@ -4,6 +4,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\DriverController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Fortify\Fortify;
 
 
@@ -141,33 +142,14 @@ Route::delete('/cars/{id}', [CarController::class, 'destroy']);
 
 Route::delete('/drivers/{id}', [DriverController::class, 'destroy']);
 
-// Маршрут для відображення форми входу
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-// Маршрут для обробки входу користувача
-Route::post('/login', function () {
-    // Логіка обробки входу користувача
-})->name('login');
-
-// Маршрут для відображення форми реєстрації
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');
-
-// Маршрут для обробки реєстрації користувача
-Route::post('/register', function () {
-    // Логіка обробки реєстрації користувача
-})->name('register');
-
-// Маршрут для виходу користувача
-Route::post('/logout', function () {
-    // Логіка виходу користувача
-})->name('logout');
-
-
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+
+
+Route::group(['middleware' => ['web']], function () {
+    Route::post('/login', 'App\Http\Controllers\LoginController@login');
+    Route::post('/logout', 'App\Http\Controllers\LoginController@logout');
 });
